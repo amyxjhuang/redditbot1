@@ -7,16 +7,12 @@ reddit = praw.Reddit(client_id=config.client_id,
                      username=config.username,
                      password=config.password,
                      user_agent='yay')
+subreddit = reddit.subreddit('school')
 
-subreddit = reddit.subreddit("bayarea")
+keyphrases = ['uc berkeley','cal','berkeley','go bears','Go bears']
 
-keyphrase = 'uc berkeley'
-
-for comment in subreddit.stream.comments():
-    if keyphrase == comment.body:
+for comment in subreddit.comments(limit=25):
+    time.sleep(2)
+    if comment.body in keyphrases:
         comment.reply("GO BEARS!")
-# for submission in subreddit.hot(limit=5):
-#     print("Title: ", submission.title)
-#     print("Text: ", submission.selftext)
-#     print("Score: ", submission.score)
-#     print("---------------------------------\n")
+        print ("replied to comment" + comment.id)
